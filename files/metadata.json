@@ -1,0 +1,27 @@
+{
+    "name": "mystery boxes nft",
+    "description": "It is the test metadata of mystery boxes nft",
+    "image": "",
+    "trait_type": [
+        {
+            "name": "hair",
+            "value": "A"
+        },
+        {
+            "name": "mask",
+            "value": "A"
+        },
+        {
+            "name": "tattoo",
+            "value": "A"
+        },
+        {
+            "name": "glasses",
+            "value": "A"
+        },
+        {
+            "name": "clothes",
+            "value": "B"
+        }
+    ]
+}
