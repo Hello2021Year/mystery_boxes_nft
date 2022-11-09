@@ -2,6 +2,7 @@ import os
 import random
 from urllib.request import quote, unquote
 import json
+import csv
 
 # dict 保留数字和属性的映射
 mapping = {"1":"A","2":"B","3":"C","4":"D","5":"E","6":"F"}
@@ -33,22 +34,33 @@ def atrribute_info(filepath):
 
 token_dict = atrribute_info("files/pokerClub.csv")
 
-for i in range(len(token_dict)):
-    with open("files/metadata.json") as tmp_file:
-        filename = token_dict[str(i)]['filename']
-        encode_filename = quote(filename, encoding="utf-8")
+#python2可以用file替代open
+with open("nft_metadata.csv", "w",newline="",encoding="utf-8") as csvfile:
+    writer = csv.writer(csvfile)
 
-        content = json.load(tmp_file)
-        content['image'] = "https://github.com/Hello2021Year/mystery_boxes_nft/blob/main/image/{}%EF%B8%8F.jpg".format(encode_filename)
-        content['trait_type'][0]['hair'] = token_dict[str(i)]['hair']
-        content['trait_type'][1]['mask'] = token_dict[str(i)]['mask']
-        content['trait_type'][2]['tattoo'] = token_dict[str(i)]['tattoo']
-        content['trait_type'][3]['glass'] = token_dict[str(i)]['glass']
-        content['trait_type'][4]['cloth'] = token_dict[str(i)]['cloth']
+    # 先写入columns_name
+    writer.writerow(["token_id", "is_used", "batch", "is_deleted", "metadata_json", "token_uri"])
 
-        cur_path = os.getcwd() + "/token_uri/"  + "{}.json".format(i)
-        with open(cur_path, "w") as f:
-            json.dump(content, f)
+    for i in range(len(token_dict)):
+        with open("files/metadata.json") as tmp_file:
+            filename = token_dict[str(i)]['filename']
+            print(filename)
+            encode_filename = quote(filename, encoding="utf-8").replace(".jpg","")
+            print(encode_filename)
+
+            content = json.load(tmp_file)
+            content['image'] = "https://github.com/Hello2021Year/mystery_boxes_nft/blob/main/image/{}%EF%B8%8F.jpg".format(encode_filename)
+            content['trait_type'][0]['hair'] = token_dict[str(i)]['hair']
+            content['trait_type'][1]['mask'] = token_dict[str(i)]['mask']
+            content['trait_type'][2]['tattoo'] = token_dict[str(i)]['tattoo']
+            content['trait_type'][3]['glass'] = token_dict[str(i)]['glass']
+            content['trait_type'][4]['cloth'] = token_dict[str(i)]['cloth']
+
+            row = [i,0,-1,0,json.dumps(content),""]
+            writer.writerow(row)
+
+
+
 
 
 
